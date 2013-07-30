@@ -4,6 +4,9 @@ services:
 build:
     steps:
         - script:
+            name: let db wake up
+            code: sleep 15
+        - script:
             name: create table
             code: |-
                 PGPASSWORD=wercker psql -h "$WERCKER_POSTGRESQL_HOST" -U postgres -d werckerdb1 -c 'CREATE TABLE parks (park_id INTEGER, park_name VARCHAR, park_date  DATE, park_type  VARCHAR );'
