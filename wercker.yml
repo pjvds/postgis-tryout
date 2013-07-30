@@ -9,4 +9,6 @@ build:
         - script:
             name: create table
             code: |-
-                PGPASSWORD=wercker psql -h "$WERCKER_POSTGRESQL_HOST" -U postgres -d werckerdb1 -c 'CREATE TABLE ROADS_GEOM ( ID int4, NAME varchar(25) );SELECT AddGeometryColumn('', 'roads', 'roads_geom', -1, 'GEOMETRY', 3 );'
+                PGPASSWORD=wercker psql -h "$WERCKER_POSTGRESQL_HOST" -U postgres -d werckerdb1 -c 'SELECT PostGIS_full_version();'
+                echo $(pg_config --sharedir/contrib/)
+                #PGPASSWORD=wercker psql -h "$WERCKER_POSTGRESQL_HOST" -U postgres -d werckerdb1 -c 'CREATE TABLE ROADS_GEOM ( ID int4, NAME varchar(25) );SELECT AddGeometryColumn('', 'roads', 'roads_geom', -1, 'GEOMETRY', 3 );'
