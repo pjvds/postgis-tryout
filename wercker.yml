@@ -6,6 +6,10 @@ build:
         - script:
             name: let db wake up
             code: sleep 15
+        - script: 
+            name: print environment information
+            code: |-
+                export | grep PG
         - script:
             name: create table
             code: |-
