@@ -17,5 +17,13 @@ build:
             code: |-
                 echo "$(pg_config --sharedir)/contrib/"
                 createdb mydb
+                createdb -E UTF8 template_postgis
+                createlang -d template_postgis plpgsql # Adding PLPGSQL language support.
+                psql -d postgres -c "UPDATE pg_database SET datistemplate='true' WHERE datname='template_postgis';"
+                psql -d template_postgis -f $POSTGIS_SQL_PATH/postgis.sql
+                psql -d template_postgis -f $POSTGIS_SQL_PATH/spatial_ref_sys.sql
+                psql -d template_postgis -c "GRANT ALL ON geometry_columns TO PUBLIC;"
+                psql -d template_postgis -c "GRANT ALL ON geography_columns TO PUBLIC;"
+                psql -d template_postgis -c "GRANT ALL ON spatial_ref_sys TO PUBLIC;"
                 #PGPASSWORD=wercker psql -h "$WERCKER_POSTGRESQL_HOST" -U postgres -d werckerdb1 -c 'SELECT PostGIS_full_version();'
                 #PGPASSWORD=wercker psql -h "$WERCKER_POSTGRESQL_HOST" -U postgres -d werckerdb1 -c 'CREATE TABLE ROADS_GEOM ( ID int4, NAME varchar(25) );SELECT AddGeometryColumn('', 'roads', 'roads_geom', -1, 'GEOMETRY', 3 );'
