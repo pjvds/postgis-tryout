@@ -10,19 +10,11 @@ build:
         - wercker/print-dir-tree:
             directory: /usr/linclude/postgresql/
         - script:
-            name: find contrib
-            code: |-
-                sudo find -L / -iname postgresql
-        - script:
             name: let db wake up
             code: sleep 15
-        - script: 
-            name: print environment information
-            code: |-
-                export | grep PG
         - script:
             name: create table
             code: |-
                 echo "$(pg_config --sharedir)/contrib/"
-                PGPASSWORD=wercker psql -h "$WERCKER_POSTGRESQL_HOST" -U postgres -d werckerdb1 -c 'SELECT PostGIS_full_version(); exit'
+                PGPASSWORD=wercker psql -h "$WERCKER_POSTGRESQL_HOST" -U postgres -d werckerdb1 -c 'SELECT PostGIS_full_version();'
                 #PGPASSWORD=wercker psql -h "$WERCKER_POSTGRESQL_HOST" -U postgres -d werckerdb1 -c 'CREATE TABLE ROADS_GEOM ( ID int4, NAME varchar(25) );SELECT AddGeometryColumn('', 'roads', 'roads_geom', -1, 'GEOMETRY', 3 );'
