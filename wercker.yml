@@ -3,10 +3,16 @@ services:
     - mies/postgis
 build:
     steps:
+        - wercker/print-dir-tree:
+            directory: /usr/share/postgresql/
+        - wercker/print-dir-tree:
+            directory: /usr/lib/postgresql/
+        - wercker/print-dir-tree:
+            directory: /usr/linclude/postgresql/
         - script:
             name: find contrib
             code: |-
-                find -L / -iname postgresql
+                sudo find -L / -iname postgresql
         - script:
             name: let db wake up
             code: sleep 15
